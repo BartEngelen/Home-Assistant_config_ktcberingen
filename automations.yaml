@@ -1,0 +1,286 @@
+- id: '1632645415350'
+  alias: '[Verlichting Parking] - Aan'
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 99bdfa1d6de479ad3e2925a825ca9890
+    entity_id: switch.parking_relay
+    domain: switch
+  - service: notify.gmail
+    data:
+      message: Verlichting Parking AAN
+      title: Verlichting Parking AAN
+  mode: single
+- id: '1632645476838'
+  alias: '[Verlichting Parking] - Uit'
+  description: ''
+  trigger:
+  - platform: time
+    at: 01:30
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 99bdfa1d6de479ad3e2925a825ca9890
+    entity_id: switch.parking_relay
+    domain: switch
+  - service: notify.gmail
+    data:
+      message: Verlichting Parking UIT
+      title: Verlichting Parking UIT
+  mode: single
+- id: '1633198469422'
+  alias: '[Verlichting Terrein 7] - Aan Kalender'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: calendar.terrein_7
+    to: 'on'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_1_court_7_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: Verlichting Terrein 7 AAN
+      message: Verlichting Terrein 7 AAN (Google Agenda)
+  mode: single
+- id: '1633271168845'
+  alias: '[Verlichting Terrein 8] - Aan Kalender'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: calendar.terrein_8
+    to: 'on'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_3_court_8_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: Verlichting Terrein 8 AAN
+      message: Verlichting Terrein 8 AAN (Google Agenda)
+  mode: single
+- id: '1633271451944'
+  alias: '[Verlichting Terrein 7] - Uit Kalender'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: calendar.terrein_7
+    to: 'off'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_1_court_7_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: Verlichting Terrein 7 UIT
+      message: Verlichting Terrein 7 UIT (Google Agenda)
+  mode: single
+- id: '1633271594593'
+  alias: '[Verlichting Terrein 8] - Uit Kalender'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: calendar.terrein_8
+    to: 'off'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_3_court_8_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: Verlichting Terrein 8 UIT
+      message: Verlichting Terrein 8 UIT (Google Agenda)
+  mode: single
+- id: '1633426038816'
+  alias: '[Spot Verlichting] - Terrein 8'
+  description: ''
+  trigger:
+  - platform: state
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    entity_id: switch.sonoff_4ch_relay_3_court_8_light
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_4_court_8_door_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: Spot Verlichting Terrein 8 AAN
+      message: Spot Verlichting Terrein 8 AAN
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_4_court_8_door_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      message: Spot Verlichting Terrein 8 UIT
+      title: Spot Verlichting Terrein 8 UIT
+  mode: single
+- id: '1633427102136'
+  alias: '[Spot Verlichting] - Terrein 7'
+  description: ''
+  trigger:
+  - platform: state
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    entity_id: switch.sonoff_4ch_relay_1_court_7_light
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_2_court_7_door_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: Spot Verlichting Terrein 7 AAN
+      message: Spot Verlichting Terrein 7 AAN
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_2_court_7_door_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      message: Spot Verlichting Terrein 7 UIT
+      title: Spot Verlichting Terrein 7 UIT
+  mode: single
+- id: '1633456715239'
+  alias: '[RFID Terrein 7] - Licht (Valid Tag)'
+  description: ''
+  trigger:
+  - platform: state
+    to: 'on'
+    entity_id: switch.terrein_7_door_lock
+    from: 'off'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_1_court_7_light
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: notify.gmail
+    data:
+      title: RFID Terrein 7 Licht AAN (Valid Tag)
+      message: '{{ states(''sensor.terrein_7_last_tag_description'') }}'
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: notify.gmail
+    data:
+      title: RFID Terrein 7 Speeltijd gedaan (Valid Tag)
+      message: '{{ states(''sensor.terrein_7_last_tag_description'') }}'
+  - condition: state
+    entity_id: calendar.terrein_7
+    state: 'off'
+  - type: turn_off
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_1_court_7_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: RFID Terrein 7 Licht UIT (Valid Tag)
+      message: '{{ states(''sensor.terrein_7_last_tag_description'') }}'
+  mode: single
+- id: '1633457236502'
+  alias: '[RFID Terrein 8] - Licht (Valid Tag)'
+  description: ''
+  trigger:
+  - platform: state
+    to: 'on'
+    entity_id: switch.terrein_8_door_lock
+    from: 'off'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_3_court_8_light
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: notify.gmail
+    data:
+      title: RFID Terrein 8 Licht AAN (Valid Tag)
+      message: '{{ states(''sensor.terrein_8_last_tag_description'') }}'
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: notify.gmail
+    data:
+      title: RFID Terrein 8 Speeltijd gedaan (Valid Tag)
+      message: '{{ states(''sensor.terrein_8_last_tag_description'') }}'
+  - condition: state
+    entity_id: calendar.terrein_8
+    state: 'off'
+  - type: turn_off
+    device_id: 7397c58166dfe4719a29c09d72cae58f
+    entity_id: switch.sonoff_4ch_relay_3_court_8_light
+    domain: switch
+  - service: notify.gmail
+    data:
+      title: RFID Terrein 8 Licht UIT (Valid Tag)
+      message: '{{ states(''sensor.terrein_8_last_tag_description'') }}'
+  mode: single
+- id: '1639157661573'
+  alias: '[RFID Sanitair] - Sanitair (Valid Tag)'
+  description: ''
+  trigger:
+  - platform: state
+    to: 'on'
+    entity_id: switch.sanitair_door_lock
+    from: 'off'
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: notify.gmail
+    data:
+      title: RFID Sanitair (Valid Tag)
+      message: '{{ states(''sensor.sanitair_last_tag_description'') }}'
+  mode: single

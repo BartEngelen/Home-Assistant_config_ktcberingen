@@ -1,0 +1,91 @@
+esphome:
+  name: rfid-reader-terrein-8
+  platform: ESP8266
+  board: d1_mini
+  includes:
+  - door_lock_rfid.h
+  libraries:
+  - "ESP8266HTTPClient"
+  - "SPI"
+  - "MFRC522"
+ # Need to override -Wl,-T - the only way is by setting all build_flags
+  platformio_options:
+    build_flags: -DESPHOME_LOG_LEVEL=ESPHOME_LOG_LEVEL_DEBUG -DUSE_STORE_LOG_STR_IN_FLASH -Wl,-Teagle.flash.4m1m.ld -fno-exceptions
+
+custom_component:
+- lambda: |-
+    auto component = new RfidSensorsComponent();
+    return { component };
+  id: rfid_component
+
+wifi:
+  ssid: "KTCB_HAL"
+  password: "73685074"
+  manual_ip:
+    static_ip: 192.168.1.149
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
+
+# Enable logging
+logger:
+
+# Enable OTA updates
+ota:
+  password: "8ae52dce710c1617ece06b001acef62e"
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: print_users_list
+      then:
+        lambda: |-
+          auto component_id = id(rfid_component);
+          RfidSensorsComponent* component = ((RfidSensorsComponent*) (component_id.get_component(0)));
+          component->send_users_list_notification();
+    - service: upload_users_list
+      variables:
+        list: string[]
+      then:
+        lambda: |-
+          auto component_id = id(rfid_component);
+          RfidSensorsComponent* component = ((RfidSensorsComponent*) (component_id.get_component(0)));
+          component->upload_users_list(list);
+
+binary_sensor:
+- platform: custom
+  lambda: |-
+    auto component_id = id(rfid_component);
+    RfidSensorsComponent* component = ((RfidSensorsComponent*) (component_id.get_component(0)));    return { component->valid_tag_sensor, component->invalid_tag_sensor };
+  binary_sensors:
+  - name: "Terrein 8 Valid Tag"
+    on_press:
+      switch.turn_on: terrein_8_door_lock
+  - name: "Terrein 8 Invalid Tag"
+
+text_sensor:
+- platform: custom
+  lambda: |-
+    auto component_id = id(rfid_component);
+    RfidSensorsComponent* component = ((RfidSensorsComponent*) (component_id.get_component(0)));
+    return { component->last_tag_id_sensor, component->last_tag_description_sensor };
+  text_sensors:
+  - name: "Terrein 8 Last Tag ID"
+    icon: "mdi:card-bulleted-outline"
+  - name: "Terrein 8 Last Tag Description"
+    icon: "mdi:card-bulleted-outline"
+
+status_led:
+  pin:
+    number: D4 # GPIO2 pin
+    inverted: true
+
+switch:
+  - platform: gpio
+    pin: D0 # GPIO16 pin
+    restore_mode: ALWAYS_OFF
+    id: terrein_8_door_lock
+    name: "Terrein 8 Door Lock"
+    icon: "mdi:lock-outline"
+    on_turn_on:
+    - delay: 5s
+    - switch.turn_off: terrein_8_door_lock

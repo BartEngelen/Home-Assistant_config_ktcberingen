@@ -1,0 +1,39 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24 # Add the IP address of the proxy server
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+binary_sensor: !include binary_sensors.yaml
+sensor: !include sensors.yaml
+
+# Gooogle Calendar
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+
+notify:
+  - name: gmail
+    platform: smtp
+    server: smtp.gmail.com
+    port: 587
+    timeout: 15
+    sender: engelen.bart@gmail.com
+    encryption: starttls
+    username: engelen.bart@gmail.com
+    password: !secret gmail_password
+    recipient:
+      - bart.engelen1@telenet.be
+      - ktcberingen2019@gmail.com
+    sender_name: KTC Beringen Home Assistant

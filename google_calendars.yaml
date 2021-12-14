@@ -1,0 +1,29 @@
+
+- cal_id: en.be#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: holidays_in_belgium
+    ignore_availability: true
+    name: Holidays in Belgium
+    track: true
+
+- cal_id: ktcberingen2019@gmail.com
+  entities:
+  - device_id: ktcberingen2019_gmail_com
+    ignore_availability: true
+    name: ktcberingen2019@gmail.com
+    track: true
+  - device_id: Terrein 7
+    name: Terrein 7
+    track: true
+    search: "#Terrein 7"
+  - device_id: Terrein 8
+    name: Terrein 8
+    track: true
+    search: "#Terrein 8"
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: verjaardagen
+    ignore_availability: true
+    name: Verjaardagen
+    track: true

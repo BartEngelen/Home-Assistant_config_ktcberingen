@@ -1,0 +1,7 @@
+- platform: authenticated
+# GitHub Integration
+- platform: github
+  access_token: !secret github_token
+  repositories:
+    - path: 'BartEngelen/Home-AssistantConfig-ktcberingen'
+      name: KTC Beringen Home Assistant Config
